@@ -1,0 +1,61 @@
+package api.services;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+
+import org.json.JSONException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import bo.services.ReconcilliationService;
+
+@Path("/reconcilliation_service")
+public class ReconcilliationApiService {
+
+	@GET
+	@Produces("application/json")
+	public Response get() throws JSONException, JsonProcessingException {
+		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setDateFormat(df);
+		String result = mapper.writeValueAsString((new ReconcilliationService()).findAll());
+		return Response.status(200).entity(result).build();
+	}
+
+	@Path("{reconNo}")
+	@GET
+	@Produces("application/json")
+	public Response getByReconNo(@PathParam("reconNo") String reconNo) throws JSONException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString((new ReconcilliationService().findByReconNo(reconNo)));
+		return Response.status(200).entity(result).build();
+	}
+
+	@POST
+	public void insert(String str) {
+
+	}
+
+	@DELETE
+	@Produces("text/plain")
+	@Path("{reconNo}")
+	public Response delete(@PathParam("reconNo") String reconNo) {
+		try {
+			(new ReconcilliationService()).delete(reconNo);
+			return Response.status(200).entity("Success!").build();
+		} catch (Exception e) {
+			return Response.status(404).entity("Failed, " + e.getMessage()).build();
+		}
+	}
+
+}

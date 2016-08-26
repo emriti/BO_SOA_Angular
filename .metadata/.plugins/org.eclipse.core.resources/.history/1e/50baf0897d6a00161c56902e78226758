@@ -1,0 +1,12 @@
+package bo.services;
+
+import java.util.List;
+
+import bo.entities.ReconcilliationMaster;
+
+public class ReconcilliationService {
+
+	public List<ReconcilliationMaster> getAll() {
+		EntityManager em = 
+	}
+}

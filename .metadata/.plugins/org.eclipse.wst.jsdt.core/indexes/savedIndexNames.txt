@@ -1,0 +1,7 @@
+INDEX VERSION 1.3+C:\RisetAngularSpring\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3780761057.index
+190100941.index
+2820624305.index
+1292974031.index
+808701957.index
+1595183775.index

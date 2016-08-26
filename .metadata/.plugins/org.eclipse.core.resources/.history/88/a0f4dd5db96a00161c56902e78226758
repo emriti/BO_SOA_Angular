@@ -1,0 +1,96 @@
+package bo.services;
+
+import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import bo.common.ConnectionUtil;
+import bo.entities.ReconcilliationMaster;
+
+public class ReconcilliationService {
+
+	public List<ReconcilliationMaster> findAll() {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			Query q = em.createNamedQuery("ReconcilliationMaster.findAll");
+			return q.getResultList();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (em.isOpen())
+				em.close();
+		}
+	}
+
+	public ReconcilliationMaster findByReconNo(String reconNo) {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			return em.find(ReconcilliationMaster.class, reconNo.trim());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (em.isOpen())
+				em.close();
+		}
+	}
+
+	public void insert(String reconcileNo, Date reconcileDate, int paymentTypeId, double balanceSnapshot,
+			double nextPaymentAmount, double penihilanAmount, String createdBy) {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			ReconcilliationMaster master = new ReconcilliationMaster();
+			master.setReconcileNo(reconcileNo);
+			master.setReconcileDate(new Timestamp(reconcileDate.getTime()));
+			master.setPaymentTypeId(new BigDecimal(paymentTypeId));
+			master.setBalanceSnapshot(new BigDecimal(balanceSnapshot));
+			master.setNextPaymentAmount(new BigDecimal(nextPaymentAmount));
+			master.setPenihilanAmount(new BigDecimal(penihilanAmount));
+			master.setCreatedBy(createdBy);
+			master.setCreatedDate(new Timestamp((new Date()).getTime()));
+			em.persist(master);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw e;
+		} finally {
+			if (em.isOpen())
+				em.close();
+		}
+	}
+
+	public void update(String oldReconNo, double balanceSnapshot, double nextPaymentAmount, double penihilanAmount, String modifiedBy) {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			ReconcilliationMaster master = em.find(ReconcilliationMaster.class, oldReconNo);
+			master.setBalanceSnapshot(new BigDecimal(balanceSnapshot));
+			master.setNextPaymentAmount(new BigDecimal(nextPaymentAmount));
+			master.setPenihilanAmount(new BigDecimal(penihilanAmount));
+			master.setModifiedBy(modifiedBy);
+			master.setModifiedDate(new Timestamp((new Date()).getTime()));
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw e;
+		}
+	}
+
+	public void delete(String reconNo) {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			em.getTransaction().begin();
+			ReconcilliationMaster master = em.find(ReconcilliationMaster.class, reconNo);
+			em.remove(master);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw e;
+		}
+	}
+
+}

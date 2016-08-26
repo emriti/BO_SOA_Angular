@@ -1,0 +1,58 @@
+package bo.services;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import bo.common.ConnectionUtil;
+import bo.entities.ReconcilliationMaster;
+
+public class ReconcilliationService {
+
+	public List<ReconcilliationMaster> findAll() {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			Query q = em.createNamedQuery("ReconcilliationMaster.findAll");
+			return q.getResultList();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(em.isOpen()) em.close();
+		}
+	}
+	
+	public ReconcilliationMaster findByReconNo(String reconNo) {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			return em.find(ReconcilliationMaster.class, reconNo.trim());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(em.isOpen()) em.close();
+		}
+	}
+	
+	public void insert() {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			ReconcilliationMaster master = new ReconcilliationMaster();
+			master.setReconcileNo(reconcileNo);
+			master.setReconcileDate(reconcileDate);
+			master.setPaymentTypeId(paymentTypeId);
+			master.setBalanceSnapshot(balanceSnapshot);
+			master.setNextPaymentAmount(nextPaymentAmount);
+			master.setPenihilanAmount(penihilanAmount);
+			master.setCreatedBy(createdBy);
+			master.setCreatedDate(new Timestamp(new Date() ) );
+			em.persist(master);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if(em.isOpen()) em.close();
+		}
+	}
+	
+}

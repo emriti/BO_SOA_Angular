@@ -1,0 +1,22 @@
+package bo.services;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import bo.common.ConnectionUtil;
+import bo.entities.ReconcilliationMaster;
+
+public class ReconcilliationService {
+
+	public List<ReconcilliationMaster> findAll() {
+		EntityManager em = ConnectionUtil.getEMF().createEntityManager();
+		try {
+			Query q = em.createNamedQuery("ReconcilliationMaster.findAll");
+			return q.getResultList();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+}
