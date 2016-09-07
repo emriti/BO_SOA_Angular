@@ -1,0 +1,132 @@
+(function() {
+	angular.module('recon1', [])
+		.controller('ReconController', function($scope, $http) {
+
+			var url = "http://192.168.2.50:8080/ModelService/services/reconcilliation_service/recon";
+			
+			this.sReconcileNo = "";
+			
+			this.reconcileNo = "";
+			this.reconcileDate = "";
+			this.paymentTypeId = "";
+			this.balanceSnapshot = "";
+			this.nextPaymentAmount = "";
+			this.penihilanAmount = "";
+			
+			this.recon;
+			this.isAdd;
+			
+			this.search = function(sReconcileNo) {
+
+				var newUrl = "";
+				var newRecons = {};
+
+				if (sReconcileNo != "") {
+					newUrl = url + "/" + sReconcileNo;
+				} else {
+					newUrl = url;
+				}
+
+				$http({
+					method : 'GET',
+					url : newUrl
+				}).success(function(data) {
+					if (data.length > 1) {
+						newRecons = data;
+					} else {
+						newRecons[data] = data
+					}
+					;
+					$scope.recons = newRecons;
+				}).error(function(data) {
+					console.log(data);
+				});
+			}
+
+			this.clear = function() {
+				this.sReconcileNo = "";
+			}
+
+			this.edit = function(recon) {
+				console.log(recon);
+				this.reconcileNo = recon.reconcileNo;
+				this.reconcileDate = recon.reconcileDate;
+				this.paymentTypeId = recon.paymentTypeId;
+				this.balanceSnapshot = recon.balanceSnapshot;
+				this.nextPaymentAmount = recon.nextPaymentAmount;
+				this.penihilanAmount = recon.penihilanAmount;
+				this.isAdd = false;
+			}
+
+			this.add = function() {
+				this.reconcileNo = "";
+				this.reconcileDate = null;
+				this.paymentTypeId = null;
+				this.balanceSnapshot = null;
+				this.nextPaymentAmount = null;
+				this.penihilanAmount = null;
+				this.isAdd = true;
+			}
+
+			this.save = function() {
+				
+				if (this.isAdd) {
+					
+					var data = $.param({
+						reconcileNo: this.reconcileNo,
+						reconcileDate: this.reconcileDate,
+						paymentTypeId: this.paymentTypeId,
+						balanceSnapshot: this.balanceSnapshot,
+						nextPaymentAmount: this.nextPaymentAmount,
+						penihilanAmount: this.penihilanAmount
+//						reconcileNo: "REC-015",
+//						reconcileDate: "2016/08/31",
+//						paymentTypeId: 17,
+//						balanceSnapshot: 100,
+//						nextPaymentAmount: 50,
+//						penihilanAmount: 50
+		            });
+					
+					console.log(data);
+					
+					var config = {
+			                headers : {
+			                    //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+			                	'Content-Type': 'application/json;'
+			                }
+			            }
+					
+					console.log(config);
+					
+					$http.post(url, data, config)
+						.success(function(data, status, header, config){ 
+							$scope.PostDataResponse = data;
+						}).error(function(data, status, header, config){
+							$scope.ResponseDetails = "Data: " + data +
+			                    "<hr />status: " + status +
+			                    "<hr />headers: " + header +
+			                    "<hr />config: " + config;
+						});
+				} else {
+					
+				}
+				this.search(this.sReconcileNo);
+			}
+
+			this.deleteData = function(recon) {
+				// window.alert("delete" + recon.sReconcileNo);
+				$http({
+					method : 'DELETE',
+					url : url + "/" + recon.sReconcileNo
+				}).success(function(data) {
+					console.log("Success delete "
+							+ recon.sReconcileNo + ", "
+							+ data);
+				}).error(function(data) {
+					console.log("Error delete " + data);
+				});
+				$scope.search(this.sReconcileNo);
+			}
+
+		});
+})();

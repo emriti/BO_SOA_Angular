@@ -1,0 +1,5 @@
+(function() {
+	angular.module('finance2', []).factory('currencyConverter', function() {
+		var currencies = ['IDR', ''];
+	});
+})();

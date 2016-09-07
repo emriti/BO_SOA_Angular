@@ -1,0 +1,27 @@
+(function() {
+	angular.module('invoice1', []).controller('InvoiceController',
+			function InvoiceController() {
+				this.qty = 1;
+				this.cost = 1;
+				this.inCurr = 'IDR';
+				this.currencies = [ 'IDR', 'USD', 'EUR' ];
+				this.usdToForeignRates = {
+					IDR : 13200,
+					USD : 1,
+					EUR : 1.12
+				};
+				
+				this.total = function total(outCurr) {
+					return this.convertCurrency(this.qty * this.cost, this.inCurr, outCurr);
+				};
+				
+				this.convertCurrency = function convertCurrency(amount, inCurr, outCurr) {
+					return amount * this.usdToForeignRates[outCurr] / this.usdToForeignRates[inCurr];
+				};
+				
+				this.pay = function pay() {
+					window.alert('Thanks!');
+				};
+				
+			});
+})();

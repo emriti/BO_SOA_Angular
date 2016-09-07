@@ -1,0 +1,6 @@
+(function() {
+	angular.module('invoice1', [ 'finance2' ]).controller('InvoiceController',
+			[ 'currencyConverter', function InvoiceController(currencyController) {
+
+			} ]);
+})();

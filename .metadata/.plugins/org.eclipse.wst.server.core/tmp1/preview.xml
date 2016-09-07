@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<server port="8081">
+  <module context="AngularClient" name="AngularClient" path="C:/RisetAngularSpring/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/AngularClient" type="static"/>
+</server>

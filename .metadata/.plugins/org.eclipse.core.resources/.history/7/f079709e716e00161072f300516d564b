@@ -1,0 +1,6 @@
+(function() {
+	angular.module('invoice1', []).controller('InvoiceController', function invoiceController() {
+
+	})
+
+})();

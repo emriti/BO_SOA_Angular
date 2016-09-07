@@ -44,11 +44,13 @@
 	</section>
 	<section name="wizardPage">
 		<list key="groupId">
+			<item value="AngularClient"/>
 			<item value="ModelService"/>
 		</list>
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="AngularClient"/>
 			<item value="ModelService"/>
 		</list>
 		<list key="version">

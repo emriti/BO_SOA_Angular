@@ -1,0 +1,6 @@
+function Hello($scope, $http) {
+	$http.get('').
+		success(function(data) {
+			$scope.recon = data;
+		});
+}

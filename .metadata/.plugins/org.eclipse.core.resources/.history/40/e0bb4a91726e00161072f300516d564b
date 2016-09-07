@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="scripts/angular.min.js"></script>
+</head>
+<body>
+	<div ng-app>
+		<b>Invoice:</b>
+		<div>Quantity:<input type="number" min="0" ng-model="qty"></div>
+		<div>Price:<input type="number" min="0" ng-model="price"></div>
+		<div><b>Total:</b>{{qty*price|currency}}</div>
+	</div>
+</body>
+</html>

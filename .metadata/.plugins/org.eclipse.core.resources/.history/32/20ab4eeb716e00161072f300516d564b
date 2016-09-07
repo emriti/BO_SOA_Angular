@@ -1,0 +1,11 @@
+(function() {
+	angular.module('invoice1', []).controller('InvoiceController', function InvoiceController() {
+		this.qty =1;
+		this.cost = 1;
+		this.inCurr = 'IDR';
+		this.currencies = ['IDR','USD','EUR'];
+		this.idrToForeignRates
+		
+	})
+
+})();

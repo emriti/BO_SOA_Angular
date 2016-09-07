@@ -37,7 +37,13 @@ public class ReconcilliationApiService {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setDateFormat(df);
 		String result = mapper.writeValueAsString((new ReconcilliationService()).findAll());
-		return Response.status(200).entity(result).build();
+		return Response.status(200)
+//				.header("Access-Control-Allow-Origin", "*")
+//				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+//				.header("Access-Control-Allow-Credentials", "true")
+//				.header("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD")
+//				.header("Access-Control-Max-Age", "1209600")
+				.entity(result).build();
 	}
 
 	@GET
@@ -46,7 +52,13 @@ public class ReconcilliationApiService {
 	public Response getByReconNo(@PathParam("reconNo") String reconNo) throws JSONException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = mapper.writeValueAsString((new ReconcilliationService().findByReconNo(reconNo)));
-		return Response.status(200).entity(result).build();
+		return Response.status(200)
+//				.header("Access-Control-Allow-Origin", "*")
+//				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+//				.header("Access-Control-Allow-Credentials", "true")
+//				.header("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD")
+//				.header("Access-Control-Max-Age", "1209600")
+				.entity(result).build();
 	}
 
 	@POST
@@ -71,7 +83,7 @@ public class ReconcilliationApiService {
 	@Path("/recon")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN })
-	public Response insert(@FormParam("reconcileNo") String reconcileNo,
+	public Response update(@FormParam("reconcileNo") String reconcileNo,
 			@FormParam("balanceSnapshot") double balanceSnapshot,
 			@FormParam("nextPaymentAmount") double nextPaymentAmount,
 			@FormParam("penihilanAmount") double penihilanAmount, @FormParam("modifiedBy") String modifiedBy,
@@ -91,9 +103,17 @@ public class ReconcilliationApiService {
 	public Response delete(@PathParam("reconNo") String reconNo) {
 		try {
 			(new ReconcilliationService()).delete(reconNo);
-			return Response.status(200).entity("Success!").build();
+			return Response.status(200)
+//					.header("Access-Control-Allow-Origin", "*")
+//					.header("Access-Control-Allow-Headers", "content-type")
+//					.header("Access-Control-Allow-Methods", "DELETE, OPTIONS, HEAD")
+					.entity("Success!").build();
 		} catch (Exception e) {
-			return Response.status(404).entity("Failed, " + e.getMessage()).build();
+			return Response.status(404)
+//					.header("Access-Control-Allow-Origin", "*")
+//					.header("Access-Control-Allow-Headers", "content-type")
+//					.header("Access-Control-Allow-Methods", "DELETE, OPTIONS, HEAD")
+					.entity("Failed, " + e.getMessage()).build();
 		}
 	}
 

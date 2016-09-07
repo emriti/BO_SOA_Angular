@@ -1,0 +1,6 @@
+function Recon($scope, $http) {
+	$http.get('http://localhost:8080/ModelService/services/reconcilliation_service/recon/REC-015').
+		success(function(data) {
+			$scope.recons = data;
+		});
+}

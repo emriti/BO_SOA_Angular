@@ -1,0 +1,41 @@
+(function() {
+	angular
+			.module('finance3', [])
+			.factory(
+					[
+							'$http',
+							function() {
+								var YAHOO_FINANCE_URL_PATTERN = '//query.yahooapis.com/v1/public/yql?q=select * from '
+										+ 'yahoo.finance.xchange where pair in ("PAIRS")&format=json&'
+										+ 'env=store://datatables.org/alltableswithkeys&callback=JSON_CALLBACK';
+								
+								var currencies = [ 'IDR', 'USD', 'EUR' ];
+								var usdToForeignRates = [];
+							}
+
+					]);
+})();
+
+(function() {
+	angular.module('finance2', []).factory(
+			'currencyConverter',
+			function() {
+				var currencies = [ 'IDR', 'USD', 'EUR' ];
+				var usdToForeignRates = {
+					IDR : 13200,
+					USD : 1,
+					EUR : 1.12
+				};
+
+				var convert = function(amount, inCurr, outCurr) {
+					return amount * usdToForeignRates[outCurr]
+							/ usdToForeignRates[inCurr];
+				};
+
+				return {
+					currencies : currencies,
+					convert : convert
+				};
+
+			});
+})();
